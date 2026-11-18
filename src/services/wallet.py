@@ -1,5 +1,7 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
+
 from fastapi import HTTPException
+
 from src.domain.models import money, to_cents
 
 
@@ -13,7 +15,7 @@ class WalletService:
         if not self.registry.is_valid(owner):
             raise HTTPException(422, "Cadastro inválido")
         cents = to_cents(initial_balance, allow_zero=True)
-        now = datetime.now(timezone.utc).isoformat()
+        now = datetime.now(UTC).isoformat()
         with self.repo.lock:
             cursor = self.repo.conn.execute("INSERT INTO accounts(owner,balance) VALUES(?,?)", (owner.strip(), cents))
             account_id = cursor.lastrowid
@@ -50,7 +52,7 @@ class WalletService:
                     raise HTTPException(404, "Conta não encontrada")
                 if source["balance"] < cents:
                     raise HTTPException(409, "Saldo insuficiente")
-                now = datetime.now(timezone.utc).isoformat()
+                now = datetime.now(UTC).isoformat()
                 db.execute("UPDATE accounts SET balance=balance-? WHERE id=?", (cents, source_id))
                 db.execute("UPDATE accounts SET balance=balance+? WHERE id=?", (cents, target_id))
                 cursor = db.execute("INSERT INTO transfers(source_id,target_id,amount,key,created_at) VALUES(?,?,?,?,?)", (source_id, target_id, cents, key, now))

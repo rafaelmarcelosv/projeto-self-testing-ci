@@ -1,5 +1,6 @@
 import pytest
 from fastapi import HTTPException
+
 from src.domain.models import money, to_cents
 
 

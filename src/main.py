@@ -1,5 +1,7 @@
 import os
+
 from fastapi import FastAPI
+
 from src.controllers.api import router
 from src.repositories.sqlite_repo import WalletRepository
 from src.services.gateways import AntifraudGateway, RegistrationStub

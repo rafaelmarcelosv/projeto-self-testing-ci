@@ -1,6 +1,8 @@
 from unittest.mock import Mock
-from src.main import create_app
+
 from fastapi.testclient import TestClient
+
+from src.main import create_app
 
 
 class FixedRegistryStub:

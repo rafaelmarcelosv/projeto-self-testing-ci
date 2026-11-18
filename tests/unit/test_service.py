@@ -1,8 +1,10 @@
 from unittest.mock import Mock
+
 import pytest
 from fastapi import HTTPException
-from src.services.wallet import WalletService
+
 from src.repositories.sqlite_repo import WalletRepository
+from src.services.wallet import WalletService
 
 
 @pytest.fixture

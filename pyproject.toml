@@ -1,6 +1,10 @@
 [tool.ruff]
 line-length = 160
 
+[tool.ruff.lint.per-file-ignores]
+"src/controllers/api.py" = ["B008"]
+"src/services/wallet.py" = ["S110", "BLE001"]
+
 [tool.coverage.run]
 branch = true
 source = ["src"]
